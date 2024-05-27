@@ -51,6 +51,7 @@
 
 void Player_Init(Actor* thisx, PlayState* play);
 void Player_Destroy(Actor* thisx, PlayState* play);
+void RegisterMeterStuff();
 void Player_Update(Actor* thisx, PlayState* play);
 void Player_Draw(Actor* thisx, PlayState* play);
 
@@ -12580,6 +12581,63 @@ s32 Player_UpdateNoclip(Player* this, PlayState* play) {
     return true;
 }
 
+u8 noooooo;
+float ddddd;
+u8 my_floor_2(float num) {
+
+    ddddd = num;
+    noooooo = (u8)num;
+
+    if (ddddd + 0.5 > noooooo) num = noooooo;
+    else num = num - 1;
+    return num;
+}
+
+u8 absolutely(int aNumber) {
+    if (aNumber < 0) aNumber = -aNumber;
+
+    return aNumber;
+}
+
+bool meterr;
+u8 timerrr;
+int timerrlimitt = 0;
+float newAmmoAmount;
+
+void RegisterMeterStuff() {
+    static u8 framesSinceMeter = 0;
+    static u8 temp_ammo;
+    framesSinceMeter++;
+    if (temp_ammo != gSaveContext.save.saveInfo.playerData.magic)
+    {
+        if (gSaveContext.save.saveInfo.playerData.magic < 0) {timerrlimitt = gSaveContext.save.saveInfo.playerData.magic*10; gSaveContext.save.saveInfo.playerData.magic = 0;}
+        meterr = true; timerrr = 0; temp_ammo = gSaveContext.save.saveInfo.playerData.magic;
+    }
+    if (meterr == true){
+        timerrr++;
+        if (timerrr == 30 + absolutely(timerrlimitt)){
+            timerrr = 0;
+            timerrlimitt = 0;
+            meterr = false;
+        }
+    }
+    if (framesSinceMeter > 10 && meterr == false) {
+        framesSinceMeter = 0;
+        if (gSaveContext.save.saveInfo.playerData.magic < gSaveContext.magicCapacity) {
+            gSaveContext.save.saveInfo.playerData.magic++;
+            temp_ammo++;
+        } else if (gSaveContext.save.saveInfo.playerData.magic > gSaveContext.magicCapacity) gSaveContext.save.saveInfo.playerData.magic = temp_ammo = gSaveContext.magicCapacity;
+    }
+    newAmmoAmount = (10*gSaveContext.magicCapacity/48) * ((float)(gSaveContext.save.saveInfo.playerData.magic) / gSaveContext.magicCapacity);
+    if (timerrlimitt == 0 || gSaveContext.save.saveInfo.playerData.magic > 0) {
+        if (my_floor_2(newAmmoAmount/5) == 0) AMMO(ITEM_DEKU_STICK) = 1; else AMMO(ITEM_DEKU_STICK) = newAmmoAmount/5+1;
+        if (my_floor_2(newAmmoAmount/5) == 0) AMMO(ITEM_DEKU_NUT) = 1; else AMMO(ITEM_DEKU_NUT) = newAmmoAmount/5+1;
+        if (my_floor_2(newAmmoAmount/5) == 0) AMMO(ITEM_BOMB) = 1; else AMMO(ITEM_BOMB) = newAmmoAmount/5+1;
+        if (my_floor_2(newAmmoAmount/2.5) == 0) AMMO(ITEM_BOW) = 1; else AMMO(ITEM_BOW) = newAmmoAmount/2.5+1;
+        if (my_floor_2(newAmmoAmount/5) == 0) AMMO(ITEM_BOMBCHU) = 1; else AMMO(ITEM_BOMBCHU) = newAmmoAmount/5+1;
+    } else AMMO(ITEM_DEKU_STICK) = AMMO(ITEM_DEKU_NUT) = AMMO(ITEM_BOMB) = AMMO(ITEM_BOW) = AMMO(ITEM_BOMBCHU) = 0;
+}
+
 void Player_Update(Actor* thisx, PlayState* play) {
     static Vec3f sDogSpawnPos;
     Player* this = (Player*)thisx;
@@ -12642,6 +12700,7 @@ void Player_Update(Actor* thisx, PlayState* play) {
     GameInteractor_ExecuteOnPassPlayerInputs(&input);
 
     Player_UpdateCommon(this, play, &input);
+    RegisterMeterStuff();
 skipUpdate:
     play->actorCtx.unk268 = 0;
     memset(&play->actorCtx.unk_26C, 0, sizeof(Input));

@@ -155,7 +155,7 @@ static DrawItemTableEntry sDrawItemTable[] = {
     // GID_MASK_ALL_NIGHT, OBJECT_GI_MASK06
     { GetItem_DrawOpa0Xlu1, { gGiAllNightMaskEyesDL, gGiAllNightMaskFaceDL } },
     // GID_DEKU_NUTS, OBJECT_GI_NUTS
-    { GetItem_DrawDekuNuts, { gGiNutDL } },
+    { GetItem_DrawDekuNuts, { gGiMagicJarSmallDL } },
     // GID_HEART_CONTAINER, OBJECT_GI_HEARTS
     { GetItem_DrawXlu01, { gGiHeartBorderDL, gGiHeartContainerDL } },
     // GID_HEART_PIECE, OBJECT_GI_HEARTS
@@ -173,7 +173,7 @@ static DrawItemTableEntry sDrawItemTable[] = {
     // GID_BOMB_BAG_40, OBJECT_GI_BOMBPOUCH
     { GetItem_DrawUpgrades, { gGiBombBagDL, gGiBombBag40BagColorDL, gGiBombBag40RingColorDL, gGiBombBagRingDL } },
     // GID_DEKU_STICK, OBJECT_GI_STICK
-    { GetItem_DrawOpa0, { gGiStickDL } },
+    { GetItem_DrawOpa0, { gGiMagicJarSmallDL } },
     // GID_DUNGEON_MAP, OBJECT_GI_MAP
     { GetItem_DrawOpa0, { gGiDungeonMapDL } },
     // GID_MAGIC_JAR_SMALL, OBJECT_GI_MAGICPOT
@@ -181,7 +181,7 @@ static DrawItemTableEntry sDrawItemTable[] = {
     // GID_MAGIC_JAR_BIG, OBJECT_GI_MAGICPOT
     { GetItem_DrawOpa0, { gGiMagicJarLargeDL } },
     // GID_BOMB, OBJECT_GI_BOMB_1
-    { GetItem_DrawOpa0, { gGiBombDL } },
+    { GetItem_DrawOpa0, { gGiMagicJarLargeDL } },
     // GID_STONE_OF_AGONY, OBJECT_GI_MAP
     { GetItem_DrawOpa0, { gGiStoneOfAgonyDL } },
     // GID_WALLET_ADULT, OBJECT_GI_PURSE
@@ -195,13 +195,13 @@ static DrawItemTableEntry sDrawItemTable[] = {
     // GID_MASK_DON_GERO, OBJECT_GI_MASK16
     { GetItem_DrawOpa0Xlu1, { gGiDonGeroMaskFaceDL, gGiDonGeroMaskBodyDL } },
     // GID_ARROWS_SMALL, OBJECT_GI_ARROW
-    { GetItem_DrawOpa0, { gGiArrowSmallDL } },
+    { GetItem_DrawOpa0, { gGiMagicJarSmallDL } },
     // GID_ARROWS_MEDIUM, OBJECT_GI_ARROW
-    { GetItem_DrawOpa0, { gGiArrowMediumDL } },
+    { GetItem_DrawOpa0, { gGiMagicJarSmallDL } },
     // GID_ARROWS_LARGE, OBJECT_GI_ARROW
-    { GetItem_DrawOpa0, { gGiArrowLargeDL } },
+    { GetItem_DrawOpa0, { gGiMagicJarLargeDL } },
     // GID_BOMBCHU, OBJECT_GI_BOMB_2
-    { GetItem_DrawBombchu, { gGiBombchuDL } },
+    { GetItem_DrawBombchu, { gGiMagicJarLargeDL } },
     // GID_SHIELD_HERO, OBJECT_GI_SHIELD_2
     { GetItem_DrawOpa0Xlu1, { gGiHerosShieldEmblemDL, gGiHerosShieldDL } },
     // GID_HOOKSHOT, OBJECT_GI_HOOKSHOT

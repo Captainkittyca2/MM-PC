@@ -4527,53 +4527,10 @@ void Rupees_ChangeBy(s16 rupeeChange) {
     gSaveContext.rupeeAccumulator += rupeeChange;
 }
 
+u8 itemUsage;
+
 void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
-    if (item == ITEM_DEKU_STICK) {
-        AMMO(ITEM_DEKU_STICK) += ammoChange;
-
-        if (AMMO(ITEM_DEKU_STICK) >= CUR_CAPACITY(UPG_DEKU_STICKS)) {
-            AMMO(ITEM_DEKU_STICK) = CUR_CAPACITY(UPG_DEKU_STICKS);
-        } else if (AMMO(ITEM_DEKU_STICK) < 0) {
-            AMMO(ITEM_DEKU_STICK) = 0;
-        }
-
-    } else if (item == ITEM_DEKU_NUT) {
-        AMMO(ITEM_DEKU_NUT) += ammoChange;
-
-        if (AMMO(ITEM_DEKU_NUT) >= CUR_CAPACITY(UPG_DEKU_NUTS)) {
-            AMMO(ITEM_DEKU_NUT) = CUR_CAPACITY(UPG_DEKU_NUTS);
-        } else if (AMMO(ITEM_DEKU_NUT) < 0) {
-            AMMO(ITEM_DEKU_NUT) = 0;
-        }
-
-    } else if (item == ITEM_BOMBCHU) {
-        AMMO(ITEM_BOMBCHU) += ammoChange;
-
-        if (AMMO(ITEM_BOMBCHU) >= CUR_CAPACITY(UPG_BOMB_BAG)) {
-            AMMO(ITEM_BOMBCHU) = CUR_CAPACITY(UPG_BOMB_BAG);
-        } else if (AMMO(ITEM_BOMBCHU) < 0) {
-            AMMO(ITEM_BOMBCHU) = 0;
-        }
-
-    } else if (item == ITEM_BOW) {
-        AMMO(ITEM_BOW) += ammoChange;
-
-        if (AMMO(ITEM_BOW) >= CUR_CAPACITY(UPG_QUIVER)) {
-            AMMO(ITEM_BOW) = CUR_CAPACITY(UPG_QUIVER);
-        } else if (AMMO(ITEM_BOW) < 0) {
-            AMMO(ITEM_BOW) = 0;
-        }
-
-    } else if (item == ITEM_BOMB) {
-        AMMO(ITEM_BOMB) += ammoChange;
-
-        if (AMMO(ITEM_BOMB) >= CUR_CAPACITY(UPG_BOMB_BAG)) {
-            AMMO(ITEM_BOMB) = CUR_CAPACITY(UPG_BOMB_BAG);
-        } else if (AMMO(ITEM_BOMB) < 0) {
-            AMMO(ITEM_BOMB) = 0;
-        }
-
-    } else if (item == ITEM_MAGIC_BEANS) {
+    if (item == ITEM_MAGIC_BEANS) {
         AMMO(ITEM_MAGIC_BEANS) += ammoChange;
 
     } else if (item == ITEM_POWDER_KEG) {
@@ -4584,6 +4541,13 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
             AMMO(ITEM_POWDER_KEG) = 0;
         }
     }
+
+    if (item == ITEM_DEKU_STICK || item == ITEM_DEKU_NUT || item == ITEM_BOW || item == ITEM_BOMB || item == ITEM_BOMBCHU) {
+        if (item == ITEM_DEKU_NUT || ITEM_DEKU_STICK || ITEM_BOMB || ITEM_BOMBCHU) itemUsage = 24;
+        else if (item == ITEM_BOW) itemUsage = 12;
+        gSaveContext.save.saveInfo.playerData.magic = gSaveContext.save.saveInfo.playerData.magic - itemUsage;
+    }
+
 }
 
 void Magic_Add(PlayState* play, s16 magicToAdd) {
@@ -4823,7 +4787,9 @@ void Magic_Update(PlayState* play) {
         case MAGIC_STATE_STEP_CAPACITY:
             // Step magicCapacity to the capacity determined by magicLevel
             // This changes the width of the magic meter drawn
-            magicCapacityTarget = gSaveContext.save.saveInfo.playerData.magicLevel * MAGIC_NORMAL_METER;
+            if (gSaveContext.save.saveInfo.playerData.magicLevel == 2) magicCapacityTarget = MAGIC_NORMAL_METER;
+            else if (gSaveContext.save.saveInfo.playerData.magicLevel == 1) magicCapacityTarget = 0.5 * MAGIC_NORMAL_METER;
+            else magicCapacityTarget = 0;
             if (gSaveContext.magicCapacity != magicCapacityTarget) {
                 if (gSaveContext.magicCapacity < magicCapacityTarget) {
                     gSaveContext.magicCapacity += 0x10;
@@ -4917,7 +4883,7 @@ void Magic_Update(PlayState* play) {
                     break;
                 }
 
-                interfaceCtx->magicConsumptionTimer--;
+                interfaceCtx->magicConsumptionTimer -= 10;
                 if (interfaceCtx->magicConsumptionTimer == 0) {
                     if (!CHECK_WEEKEVENTREG(WEEKEVENTREG_DRANK_CHATEAU_ROMANI)) {
                         gSaveContext.save.saveInfo.playerData.magic--;
@@ -5068,7 +5034,7 @@ void Magic_DrawMeter(PlayState* play) {
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 0, 200, interfaceCtx->magicAlpha);
             } else {
                 // Green magic (default)
-                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 200, 0, interfaceCtx->magicAlpha);
+                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 203, 82, 255, interfaceCtx->magicAlpha);
             }
 
             // #region 2S2H [Cosmetic] Hud Editor
@@ -5108,7 +5074,7 @@ void Magic_DrawMeter(PlayState* play) {
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 0, 200, interfaceCtx->magicAlpha);
             } else {
                 // Green magic (default)
-                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 200, 0, interfaceCtx->magicAlpha);
+                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 203, 82, 255, interfaceCtx->magicAlpha);
             }
 
             gDPLoadTextureBlock_4b(OVERLAY_DISP++, gMagicMeterFillTex, G_IM_FMT_I, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,

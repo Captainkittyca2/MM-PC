@@ -573,15 +573,15 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
             break;
 
         case ITEM00_DEKU_STICK:
-            getItemId = GI_DEKU_STICKS_1;
+            Item_Give(play, ITEM_MAGIC_JAR_SMALL);
             break;
 
         case ITEM00_DEKU_NUTS_1:
-            getItemId = GI_DEKU_NUTS_1;
+            Item_Give(play, ITEM_MAGIC_JAR_SMALL);
             break;
 
         case ITEM00_DEKU_NUTS_10:
-            getItemId = GI_DEKU_NUTS_10;
+            Item_Give(play, ITEM_MAGIC_JAR_SMALL);
             break;
 
         case ITEM00_RECOVERY_HEART:
@@ -595,23 +595,23 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
 
         case ITEM00_BOMBS_A:
         case ITEM00_BOMBS_B:
-            Item_Give(play, ITEM_BOMBS_5);
+            Item_Give(play, ITEM_MAGIC_JAR_BIG);
             break;
 
         case ITEM00_ARROWS_10:
-            Item_Give(play, ITEM_ARROWS_10);
+            Item_Give(play, ITEM_MAGIC_JAR_SMALL);
             break;
 
         case ITEM00_ARROWS_30:
-            Item_Give(play, ITEM_ARROWS_30);
+            Item_Give(play, ITEM_MAGIC_JAR_SMALL);
             break;
 
         case ITEM00_ARROWS_40:
-            Item_Give(play, ITEM_ARROWS_40);
+            Item_Give(play, ITEM_MAGIC_JAR_BIG);
             break;
 
         case ITEM00_ARROWS_50:
-            Item_Give(play, ITEM_ARROWS_50);
+            Item_Give(play, ITEM_MAGIC_JAR_BIG);
             break;
 
         case ITEM00_SMALL_KEY:
@@ -807,13 +807,13 @@ void EnItem00_DrawRupee(EnItem00* this, PlayState* play) {
 
 TexturePtr sItemDropTextures[] = {
     gDropRecoveryHeartTex, // Heart (Not used)
-    gDropBombTex,          // Bombs (A), Bombs (0)
-    gDropArrows1Tex,       // Arrows (10)
-    gDropArrows2Tex,       // Arrows (30)
-    gDropArrows3Tex,       // Arrows (40), Arrows (50)
-    gDropBombTex,          // Bombs (B)
-    gDropDekuNutTex,       // Nuts (1), Nuts (10)
-    gDropDekuStickTex,     // Sticks (1)
+    gDropMagicLargeTex,          // Bombs (A), Bombs (0)
+    gDropMagicSmallTex,       // Arrows (10)
+    gDropMagicSmallTex,       // Arrows (30)
+    gDropMagicLargeTex,       // Arrows (40), Arrows (50)
+    gDropMagicLargeTex,          // Bombs (B)
+    gDropMagicSmallTex,       // Nuts (1), Nuts (10)
+    gDropMagicSmallTex,     // Sticks (1)
     gDropMagicLargeTex,    // Magic (Large)
     gDropMagicSmallTex,    // Magic (Small)
     NULL,
