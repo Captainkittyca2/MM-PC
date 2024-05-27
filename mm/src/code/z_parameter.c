@@ -29,7 +29,6 @@ const char* sCounterTextures[] = {
     gCounterDigit6Tex, gCounterDigit7Tex, gCounterDigit8Tex, gCounterDigit9Tex, gCounterColonTex,
 };
 
-
 static const char* sDoWeekTable[] = {
     gClockDay1stTex,
     gClockDay2ndTex,
