@@ -42,6 +42,7 @@ void InitEnhancements() {
 
     // Modes
     RegisterPlayAsKafei();
+    RegisterALBWMeter();
 
     // Player Movement
     RegisterClimbSpeed();

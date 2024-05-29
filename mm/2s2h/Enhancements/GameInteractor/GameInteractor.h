@@ -281,6 +281,8 @@ class GameInteractor {
     DEFINE_HOOK(OnItemGive, (u8 item));
 
     DEFINE_HOOK(ShouldVanillaBehavior, (GIVanillaBehavior flag, bool* should, void* optionalArg));
+    DEFINE_HOOK(OnChangeAmmo, (s16 item, s16 ammoChange));
+    DEFINE_HOOK(OnPlayerUpdate, ());
 };
 
 extern "C" {
@@ -317,6 +319,9 @@ void GameInteractor_ExecuteOnCameraChangeSettingsFlags(Camera* camera);
 void GameInteractor_ExecuteOnPassPlayerInputs(Input* input);
 
 void GameInteractor_ExecuteOnOpenText(u16 textId);
+
+void GameInteractor_ExecuteOnChangeAmmoHooks(s16 item, s16 ammoChange);
+void GameInteractor_ExecuteOnPlayerUpdate();
 
 bool GameInteractor_ShouldItemGive(u8 item);
 void GameInteractor_ExecuteOnItemGive(u8 item);

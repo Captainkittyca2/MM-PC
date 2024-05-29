@@ -807,13 +807,13 @@ void EnItem00_DrawRupee(EnItem00* this, PlayState* play) {
 
 TexturePtr sItemDropTextures[] = {
     gDropRecoveryHeartTex, // Heart (Not used)
-    gDropMagicLargeTex,          // Bombs (A), Bombs (0)
-    gDropMagicSmallTex,       // Arrows (10)
-    gDropMagicSmallTex,       // Arrows (30)
-    gDropMagicLargeTex,       // Arrows (40), Arrows (50)
-    gDropMagicLargeTex,          // Bombs (B)
-    gDropMagicSmallTex,       // Nuts (1), Nuts (10)
-    gDropMagicSmallTex,     // Sticks (1)
+    gDropMagicLargeTex,    // Bombs (A), Bombs (0)
+    gDropMagicSmallTex,    // Arrows (10)
+    gDropMagicSmallTex,    // Arrows (30)
+    gDropMagicLargeTex,    // Arrows (40), Arrows (50)
+    gDropMagicLargeTex,    // Bombs (B)
+    gDropMagicSmallTex,    // Nuts (1), Nuts (10)
+    gDropMagicSmallTex,    // Sticks (1)
     gDropMagicLargeTex,    // Magic (Large)
     gDropMagicSmallTex,    // Magic (Small)
     NULL,

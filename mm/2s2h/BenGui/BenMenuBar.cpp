@@ -535,6 +535,8 @@ void DrawEnhancementsMenu() {
                                         { .tooltip = "Requires scene reload to take effect." })) {
                 UpdatePlayAsKafeiSkeletons();
             }
+            UIWidgets::CVarCheckbox("ALBW-Style Meter", "gModes.ALBWMeter",
+                                        { .tooltip = "Makes several items utilize the meter." });
             ImGui::EndMenu();
         }
         if (UIWidgets::BeginMenu("Player Movement")) {

@@ -3,6 +3,7 @@
 
 void RegisterPlayAsKafei();
 void UpdatePlayAsKafeiSkeletons();
-void UpdatePlayAsKafeiOther();
+void UpdatePlaayAsKafeiOther();
+void RegisterALBWMeter();
 
 #endif // GRAPHICS_PLAY_AS_KAFEI_H

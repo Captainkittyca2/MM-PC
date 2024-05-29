@@ -56,7 +56,8 @@ void RegisterDebugSaveCreate() {
 
                 gSaveContext.save.saveInfo.inventory.defenseHearts = 20;
                 gSaveContext.save.saveInfo.regionsVisited = (1 << REGION_MAX) - 1;
-                gSaveContext.magicCapacity = MAGIC_DOUBLE_METER;
+                if (CVarGetInteger("gModes.ALBWMeter", 0)) gSaveContext.magicCapacity = 0x30;
+                else gSaveContext.magicCapacity = MAGIC_DOUBLE_METER;
 
                 Inventory_ChangeUpgrade(UPG_WALLET, 2);
                 Inventory_ChangeUpgrade(UPG_BOMB_BAG, 3);
