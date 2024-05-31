@@ -2818,6 +2818,7 @@ PlayerEnvLighting sZoraBarrierEnvLighting = {
 };
 
 // Run Zora Barrier
+u8 paddingBarrier = 5;
 void func_8082F1AC(PlayState* play, Player* this) {
     s32 sp4C = this->unk_B62;
     f32 temp;
@@ -2829,7 +2830,14 @@ void func_8082F1AC(PlayState* play, Player* this) {
 
     if ((gSaveContext.save.saveInfo.playerData.magic != 0) && (this->stateFlags1 & PLAYER_STATE1_10)) {
         if (gSaveContext.magicState == MAGIC_STATE_IDLE) {
-            Magic_Consume(play, 0, MAGIC_CONSUME_GORON_ZORA);
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) {
+                paddingBarrier--;
+                if (paddingBarrier == 0) {
+                    paddingBarrier = 5;
+                    gSaveContext.save.saveInfo.playerData.magic--;
+                }
+            }
+            else Magic_Consume(play, 0, MAGIC_CONSUME_GORON_ZORA);
         }
 
         temp = 16.0f;
@@ -13781,6 +13789,7 @@ s32 Player_UpperAction_14(Player* this, PlayState* play) {
         Player_SetUpperAction(play, this, Player_UpperAction_15);
         this->unk_ACC = 0;
     } else if (PlayerAnimation_OnFrame(&this->skelAnimeUpper, 6.0f)) {
+        if (CVarGetInteger("gModes.ALBWMeter", 0) && gSaveContext.save.saveInfo.playerData.magic < 1) return false;
         Vec3f pos;
         s16 untargetedRotY;
 
@@ -13830,6 +13839,7 @@ s32 Player_UpperAction_14(Player* this, PlayState* play) {
             this->unk_D57 = 20;
 
             Player_PlaySfx(this, NA_SE_IT_BOOMERANG_THROW);
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) gSaveContext.save.saveInfo.playerData.magic -= 6;
             Player_AnimSfx_PlayVoice(this, NA_SE_VO_LI_SWORD_N);
         }
     }

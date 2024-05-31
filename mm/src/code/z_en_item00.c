@@ -573,15 +573,18 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
             break;
 
         case ITEM00_DEKU_STICK:
-            Item_Give(play, ITEM_MAGIC_JAR_SMALL);
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) Item_Give(play, ITEM_MAGIC_JAR_SMALL); else
+            getItemId = GI_DEKU_STICKS_1;
             break;
 
         case ITEM00_DEKU_NUTS_1:
-            Item_Give(play, ITEM_MAGIC_JAR_SMALL);
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) Item_Give(play, ITEM_MAGIC_JAR_SMALL); else
+            getItemId = GI_DEKU_NUTS_1;
             break;
 
         case ITEM00_DEKU_NUTS_10:
-            Item_Give(play, ITEM_MAGIC_JAR_SMALL);
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) Item_Give(play, ITEM_MAGIC_JAR_SMALL); else
+            getItemId = GI_DEKU_NUTS_10;
             break;
 
         case ITEM00_RECOVERY_HEART:
@@ -595,23 +598,28 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
 
         case ITEM00_BOMBS_A:
         case ITEM00_BOMBS_B:
-            Item_Give(play, ITEM_MAGIC_JAR_BIG);
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) Item_Give(play, ITEM_MAGIC_JAR_BIG); else
+            Item_Give(play, ITEM_BOMBS_5);
             break;
 
         case ITEM00_ARROWS_10:
-            Item_Give(play, ITEM_MAGIC_JAR_SMALL);
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) Item_Give(play, ITEM_MAGIC_JAR_SMALL); else
+            Item_Give(play, ITEM_ARROWS_10);
             break;
 
         case ITEM00_ARROWS_30:
-            Item_Give(play, ITEM_MAGIC_JAR_SMALL);
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) Item_Give(play, ITEM_MAGIC_JAR_SMALL); else
+            Item_Give(play, ITEM_ARROWS_30);
             break;
 
         case ITEM00_ARROWS_40:
-            Item_Give(play, ITEM_MAGIC_JAR_BIG);
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) Item_Give(play, ITEM_MAGIC_JAR_BIG); else
+            Item_Give(play, ITEM_ARROWS_40);
             break;
 
         case ITEM00_ARROWS_50:
-            Item_Give(play, ITEM_MAGIC_JAR_BIG);
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) Item_Give(play, ITEM_MAGIC_JAR_BIG); else
+            Item_Give(play, ITEM_ARROWS_50);
             break;
 
         case ITEM00_SMALL_KEY:
@@ -703,6 +711,7 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
 void EnItem00_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
     EnItem00* this = THIS;
+    f32 mtxScale;
 
     if (!(this->unk14E & this->unk150)) {
         switch (this->actor.params) {
@@ -739,20 +748,54 @@ void EnItem00_Draw(Actor* thisx, PlayState* play) {
                     break;
                 }
                 // fallthrough
+            case ITEM00_BOMBS_0:
             case ITEM00_BOMBS_A:
+            case ITEM00_BOMBS_B:
+                mtxScale = 8.0f;
+                Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                GetItem_Draw(play, GID_BOMB);
+                break;
             case ITEM00_ARROWS_10:
             case ITEM00_ARROWS_30:
+                mtxScale = 7.0f;
+                Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                GetItem_Draw(play, GID_ARROWS_SMALL);
+                break;
             case ITEM00_ARROWS_40:
+                mtxScale = 7.0f;
+                Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                GetItem_Draw(play, GID_ARROWS_MEDIUM);
+                break;
             case ITEM00_ARROWS_50:
-            case ITEM00_BOMBS_B:
+                mtxScale = 7.0f;
+                Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                GetItem_Draw(play, GID_ARROWS_LARGE);
+                break;
             case ITEM00_DEKU_NUTS_1:
-            case ITEM00_DEKU_STICK:
-            case ITEM00_MAGIC_JAR_BIG:
-            case ITEM00_MAGIC_JAR_SMALL:
-            case ITEM00_SMALL_KEY:
             case ITEM00_DEKU_NUTS_10:
-            case ITEM00_BOMBS_0:
-                EnItem00_DrawSprite(this, play);
+                mtxScale = 9.0f;
+                Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                GetItem_Draw(play, GID_DEKU_NUTS);
+                break;
+            case ITEM00_DEKU_STICK:
+                mtxScale = 7.5f;
+                Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                GetItem_Draw(play, GID_DEKU_STICK);
+                break;
+            case ITEM00_MAGIC_JAR_BIG:
+                mtxScale = 8.0f;
+                Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                GetItem_Draw(play, GID_MAGIC_JAR_BIG);
+                break;
+            case ITEM00_MAGIC_JAR_SMALL:
+                mtxScale = 8.0f;
+                Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                GetItem_Draw(play, GID_MAGIC_JAR_SMALL);
+                break;
+            case ITEM00_SMALL_KEY:
+                mtxScale = 8.0f;
+                Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                GetItem_Draw(play, GID_KEY_SMALL);
                 break;
 
             case ITEM00_SHIELD_HERO:
@@ -807,13 +850,13 @@ void EnItem00_DrawRupee(EnItem00* this, PlayState* play) {
 
 TexturePtr sItemDropTextures[] = {
     gDropRecoveryHeartTex, // Heart (Not used)
-    gDropMagicLargeTex,    // Bombs (A), Bombs (0)
-    gDropMagicSmallTex,    // Arrows (10)
-    gDropMagicSmallTex,    // Arrows (30)
-    gDropMagicLargeTex,    // Arrows (40), Arrows (50)
-    gDropMagicLargeTex,    // Bombs (B)
-    gDropMagicSmallTex,    // Nuts (1), Nuts (10)
-    gDropMagicSmallTex,    // Sticks (1)
+    gDropBombTex,          // Bombs (A), Bombs (0)
+    gDropArrows1Tex,       // Arrows (10)
+    gDropArrows2Tex,       // Arrows (30)
+    gDropArrows3Tex,       // Arrows (40), Arrows (50)
+    gDropBombTex,          // Bombs (B)
+    gDropDekuNutTex,       // Nuts (1), Nuts (10)
+    gDropDekuStickTex,     // Sticks (1)
     gDropMagicLargeTex,    // Magic (Large)
     gDropMagicSmallTex,    // Magic (Small)
     NULL,
@@ -828,15 +871,17 @@ void EnItem00_DrawSprite(EnItem00* this, PlayState* play) {
     POLY_OPA_DISP = Play_SetFog(play, POLY_OPA_DISP);
 
     if (this->actor.params == ITEM00_DEKU_NUTS_10) {
+        if (CVarGetInteger("gModes.ALBWMeter", 0)) texIndex = 9; else
         texIndex = 6;
     } else if (this->actor.params == ITEM00_BOMBS_0) {
+        if (CVarGetInteger("gModes.ALBWMeter", 0)) texIndex = 8; else
         texIndex = 1;
-    } else if (this->actor.params >= ITEM00_ARROWS_30) {
+    } else if (this->actor.params >= ITEM00_ARROWS_30 && (CVarGetInteger("gModes.ALBWMeter", 0) == 0)) {
         texIndex -= 3;
         if (this->actor.params < ITEM00_ARROWS_50) {
             texIndex++;
         }
-    }
+    } else if (this->actor.params == ITEM00_ARROWS_10 || this->actor.params == ITEM00_ARROWS_30) {texIndex = 9;} else if (this->actor.params == ITEM00_ARROWS_40 || this->actor.params == ITEM00_ARROWS_50) texIndex = 8;
 
     POLY_OPA_DISP = Gfx_SetupDL66(POLY_OPA_DISP);
 

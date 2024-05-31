@@ -4941,8 +4941,8 @@ void Magic_Update(PlayState* play) {
                     sMagicMeterOutlinePrimRed = sMagicMeterOutlinePrimGreen = sMagicMeterOutlinePrimBlue = 255;
                     break;
                 }
-
-                interfaceCtx->magicConsumptionTimer -= 10;
+                if (CVarGetInteger("gModes.ALBWMeter", 0)) interfaceCtx->magicConsumptionTimer -= 10;
+                else interfaceCtx->magicConsumptionTimer--;
                 if (interfaceCtx->magicConsumptionTimer == 0) {
                     if (!CHECK_WEEKEVENTREG(WEEKEVENTREG_DRANK_CHATEAU_ROMANI)) {
                         gSaveContext.save.saveInfo.playerData.magic--;
