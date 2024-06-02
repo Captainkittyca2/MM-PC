@@ -187,6 +187,20 @@ void GameInteractor_ExecuteOnItemGive(u8 item) {
     GameInteractor::Instance->ExecuteHooksForFilter<GameInteractor::OnItemGive>(item);
 }
 
+void GameInteractor_ExecuteOn3DItemDrops(EnItem00* actor, PlayState* play) {
+    GameInteractor::Instance->ExecuteHooks<GameInteractor::On3DItemDrops>(actor, play);
+}
+void GameInteractor_ExecuteOn3DSpinItemdrops(EnItem00* actor, PlayState* play) {
+    GameInteractor::Instance->ExecuteHooks<GameInteractor::On3DSpinItemdrops>(actor, play);
+}
+void GameInteractor_ExecuteOnChangeAmmoHooks(s16 item, s16 ammoChange) {
+    GameInteractor::Instance->ExecuteHooks<GameInteractor::OnChangeAmmo>(item, ammoChange);
+    GameInteractor::Instance->ExecuteHooksForFilter<GameInteractor::OnChangeAmmo>(item, ammoChange);
+}
+void GameInteractor_ExecuteOnPlayerUpdate() {
+    GameInteractor::Instance->ExecuteHooks<GameInteractor::OnPlayerUpdate>();
+}
+
 bool GameInteractor_Should(GIVanillaBehavior flag, bool result, void* opt) {
     GameInteractor::Instance->ExecuteHooks<GameInteractor::ShouldVanillaBehavior>(flag, &result, opt);
     GameInteractor::Instance->ExecuteHooksForID<GameInteractor::ShouldVanillaBehavior>(flag, flag, &result, opt);
