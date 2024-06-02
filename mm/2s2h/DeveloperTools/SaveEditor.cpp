@@ -266,7 +266,8 @@ void DrawGeneralTab() {
 
     ImGui::BeginGroup();
     if (UIWidgets::Button("Max Magic", { .color = UIWidgets::Colors::DarkGreen, .size = UIWidgets::Sizes::Inline })) {
-        gSaveContext.magicCapacity = gSaveContext.save.saveInfo.playerData.magic = MAGIC_DOUBLE_METER;
+        if (CVarGetInteger("gModes.ALBWMeter", 0)) gSaveContext.magicCapacity = gSaveContext.save.saveInfo.playerData.magic = 0x30;
+        else gSaveContext.magicCapacity = gSaveContext.save.saveInfo.playerData.magic = MAGIC_DOUBLE_METER;
         gSaveContext.save.saveInfo.playerData.magicLevel = 2;
         gSaveContext.save.saveInfo.playerData.isMagicAcquired = true;
         gSaveContext.save.saveInfo.playerData.isDoubleMagicAcquired = true;
@@ -284,7 +285,8 @@ void DrawGeneralTab() {
     if (ImGui::SliderScalar("##magicLevelSlider", ImGuiDataType_S8, &gSaveContext.save.saveInfo.playerData.magicLevel,
                             &S8_ZERO, &MAGIC_LEVEL_MAX,
                             MAGIC_LEVEL_NAMES[gSaveContext.save.saveInfo.playerData.magicLevel])) {
-        gSaveContext.magicCapacity = gSaveContext.save.saveInfo.playerData.magicLevel * MAGIC_NORMAL_METER;
+        if (CVarGetInteger("gModes.ALBWMeter", 0)) gSaveContext.magicCapacity = gSaveContext.save.saveInfo.playerData.magicLevel * (0.5 * 0x30);
+        else gSaveContext.magicCapacity = gSaveContext.save.saveInfo.playerData.magicLevel * MAGIC_NORMAL_METER;
         gSaveContext.save.saveInfo.playerData.magic =
             MIN(gSaveContext.save.saveInfo.playerData.magic, gSaveContext.magicCapacity);
         switch (gSaveContext.save.saveInfo.playerData.magicLevel) {
