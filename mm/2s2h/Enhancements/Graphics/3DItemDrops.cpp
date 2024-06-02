@@ -16,3 +16,103 @@ void Register3DItemDrops() {
                 else actor->actor.shape.rot.y = 0;
         }
     );
+    GameInteractor::Instance->RegisterGameHook<GameInteractor::On3DItemDrops>(
+        [](EnItem00* actor, PlayState* play) {
+            if (CVarGetInteger("gEnhancements.Graphics.Item3D", 0)) {
+                f32 mtxScale;
+                bool ALBW = CVarGetInteger("gModes.ALBWMeter", 0);
+                switch (actor->actor.params) {
+                    case ITEM00_RECOVERY_HEART:
+                        mtxScale = 16.0f;
+                        Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                        GetItem_Draw(play, GID_RECOVERY_HEART);
+                        break;
+                    case ITEM00_BOMBS_0:
+                    case ITEM00_BOMBS_A:
+                    case ITEM00_BOMBS_B:
+                        mtxScale = 8.0f;
+                        if (ALBW) {
+                            Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                            GetItem_Draw(play, GID_MAGIC_JAR_BIG);
+                        } else {
+                            Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                            GetItem_Draw(play, GID_BOMB);
+                        }
+                        break;
+                    case ITEM00_ARROWS_10:
+                    case ITEM00_ARROWS_30:
+                        if (ALBW) {
+                            mtxScale = 8.0f;
+                            Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                            GetItem_Draw(play, GID_MAGIC_JAR_SMALL);
+                        } else {
+                            mtxScale = 7.0f;
+                            Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                            GetItem_Draw(play, GID_ARROWS_SMALL);
+                        }
+                        break;
+                    case ITEM00_ARROWS_40:
+                        if (ALBW) {
+                            mtxScale = 8.0f;
+                            Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                            GetItem_Draw(play, GID_MAGIC_JAR_BIG);
+                        } else {
+                            mtxScale = 7.0f;
+                            Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                            GetItem_Draw(play, GID_ARROWS_MEDIUM);
+                        }
+                        break;
+                    case ITEM00_ARROWS_50:
+                        if (ALBW) {
+                            mtxScale = 8.0f;
+                            Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                            GetItem_Draw(play, GID_MAGIC_JAR_BIG);
+                        } else {
+                            mtxScale = 7.0f;
+                            Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                            GetItem_Draw(play, GID_ARROWS_MEDIUM);
+                        }
+                        break;
+                    case ITEM00_DEKU_NUTS_1:
+                    case ITEM00_DEKU_NUTS_10:
+                        if (ALBW) {
+                            mtxScale = 8.0f;
+                            Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                            GetItem_Draw(play, GID_MAGIC_JAR_SMALL);
+                        } else {
+                            mtxScale = 9.0f;
+                            Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                            GetItem_Draw(play, GID_DEKU_NUTS);
+                        }
+                        break;
+                    case ITEM00_DEKU_STICK:
+                        if (ALBW) {
+                            mtxScale = 8.0f;
+                            Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                            GetItem_Draw(play, GID_MAGIC_JAR_SMALL);
+                        } else {
+                            mtxScale = 7.5f;
+                            Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                            GetItem_Draw(play, GID_DEKU_STICK);
+                        }
+                        break;
+                    case ITEM00_MAGIC_JAR_BIG:
+                        mtxScale = 8.0f;
+                        Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                        GetItem_Draw(play, GID_MAGIC_JAR_BIG);
+                        break;
+                    case ITEM00_MAGIC_JAR_SMALL:
+                        mtxScale = 8.0f;
+                        Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                        GetItem_Draw(play, GID_MAGIC_JAR_SMALL);
+                        break;
+                    case ITEM00_SMALL_KEY:
+                        mtxScale = 8.0f;
+                        Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
+                        GetItem_Draw(play, GID_KEY_SMALL);
+                        break;
+                }
+            }
+        }
+    );
+}
