@@ -19,6 +19,8 @@
 #include "Restorations/PowerCrouchStab.h"
 #include "Restorations/SideRoll.h"
 #include "Restorations/TatlISG.h"
+#include "Graphics/3DItemDrops.h"
+#include "Graphics/ALBWStyleMeter.h"
 #include "Graphics/PlayAsKafei.h"
 #include "PlayerMovement/ClimbSpeed.h"
 #include "Songs/EnableSunsSong.h"

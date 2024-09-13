@@ -4,6 +4,7 @@
 #include "objects/object_gi_hearts/object_gi_hearts.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/actors/ovl_En_Elforg/z_en_elforg.h"
+#include "2s2h/Enhancements/GameInteractor/GameInteractor.h"
 
 #define FLAGS 0x00000000
 
@@ -489,6 +490,7 @@ void func_800A6A40(EnItem00* this, PlayState* play) {
 
 void EnItem00_Update(Actor* thisx, PlayState* play) {
     EnItem00* this = THIS;
+    GameInteractor_ExecuteOn3DSpinItemdrops(this, play);
     s32 pad;
     Player* player = GET_PLAYER(play);
     s32 sp38 = player->stateFlags3 & PLAYER_STATE3_1000;
@@ -573,14 +575,17 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
             break;
 
         case ITEM00_DEKU_STICK:
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) Item_Give(play, ITEM_MAGIC_JAR_SMALL); else
             getItemId = GI_DEKU_STICKS_1;
             break;
 
         case ITEM00_DEKU_NUTS_1:
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) Item_Give(play, ITEM_MAGIC_JAR_SMALL); else
             getItemId = GI_DEKU_NUTS_1;
             break;
 
         case ITEM00_DEKU_NUTS_10:
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) Item_Give(play, ITEM_MAGIC_JAR_SMALL); else
             getItemId = GI_DEKU_NUTS_10;
             break;
 
@@ -595,22 +600,27 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
 
         case ITEM00_BOMBS_A:
         case ITEM00_BOMBS_B:
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) Item_Give(play, ITEM_MAGIC_JAR_BIG); else
             Item_Give(play, ITEM_BOMBS_5);
             break;
 
         case ITEM00_ARROWS_10:
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) Item_Give(play, ITEM_MAGIC_JAR_SMALL); else
             Item_Give(play, ITEM_ARROWS_10);
             break;
 
         case ITEM00_ARROWS_30:
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) Item_Give(play, ITEM_MAGIC_JAR_SMALL); else
             Item_Give(play, ITEM_ARROWS_30);
             break;
 
         case ITEM00_ARROWS_40:
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) Item_Give(play, ITEM_MAGIC_JAR_BIG); else
             Item_Give(play, ITEM_ARROWS_40);
             break;
 
         case ITEM00_ARROWS_50:
+            if (CVarGetInteger("gModes.ALBWMeter", 0)) Item_Give(play, ITEM_MAGIC_JAR_BIG); else
             Item_Give(play, ITEM_ARROWS_50);
             break;
 
@@ -700,6 +710,21 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
     this->actionFunc = func_800A6A40;
 }
 
+TexturePtr sItemDropTextures[] = {
+    gDropRecoveryHeartTex, // Heart (Not used)
+    gDropBombTex,          // Bombs (A), Bombs (0)
+    gDropArrows1Tex,       // Arrows (10)
+    gDropArrows2Tex,       // Arrows (30)
+    gDropArrows3Tex,       // Arrows (40), Arrows (50)
+    gDropBombTex,          // Bombs (B)
+    gDropDekuNutTex,       // Nuts (1), Nuts (10)
+    gDropDekuStickTex,     // Sticks (1)
+    gDropMagicLargeTex,    // Magic (Large)
+    gDropMagicSmallTex,    // Magic (Small)
+    NULL,
+    gDropKeySmallTex // Small Key
+};
+
 void EnItem00_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
     EnItem00* this = THIS;
@@ -752,6 +777,9 @@ void EnItem00_Draw(Actor* thisx, PlayState* play) {
             case ITEM00_SMALL_KEY:
             case ITEM00_DEKU_NUTS_10:
             case ITEM00_BOMBS_0:
+                GameInteractor_ExecuteOn3DItemDrops(this, play);
+                if (CVarGetInteger("gModes.ALBWMeter", 0)) {sItemDropTextures[1] = gDropMagicLargeTex; sItemDropTextures[2] = gDropMagicSmallTex; sItemDropTextures[3] = gDropMagicSmallTex; sItemDropTextures[4] = gDropMagicLargeTex; sItemDropTextures[5] = gDropMagicLargeTex; sItemDropTextures[6] = gDropMagicSmallTex; sItemDropTextures[7] = gDropMagicSmallTex;}
+                else {sItemDropTextures[1] = gDropBombTex; sItemDropTextures[2] = gDropArrows1Tex; sItemDropTextures[3] = gDropArrows2Tex; sItemDropTextures[4] = gDropArrows3Tex; sItemDropTextures[5] = gDropBombTex; sItemDropTextures[6] = gDropDekuNutTex; sItemDropTextures[7] = gDropDekuStickTex;}
                 EnItem00_DrawSprite(this, play);
                 break;
 
@@ -805,22 +833,8 @@ void EnItem00_DrawRupee(EnItem00* this, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx);
 }
 
-TexturePtr sItemDropTextures[] = {
-    gDropRecoveryHeartTex, // Heart (Not used)
-    gDropBombTex,          // Bombs (A), Bombs (0)
-    gDropArrows1Tex,       // Arrows (10)
-    gDropArrows2Tex,       // Arrows (30)
-    gDropArrows3Tex,       // Arrows (40), Arrows (50)
-    gDropBombTex,          // Bombs (B)
-    gDropDekuNutTex,       // Nuts (1), Nuts (10)
-    gDropDekuStickTex,     // Sticks (1)
-    gDropMagicLargeTex,    // Magic (Large)
-    gDropMagicSmallTex,    // Magic (Small)
-    NULL,
-    gDropKeySmallTex // Small Key
-};
-
 void EnItem00_DrawSprite(EnItem00* this, PlayState* play) {
+    if (CVarGetInteger("gEnhancements.Graphics.Item3D", 0) == 0) {
     s32 texIndex = this->actor.params - 3;
 
     OPEN_DISPS(play->state.gfxCtx);
@@ -847,6 +861,7 @@ void EnItem00_DrawSprite(EnItem00* this, PlayState* play) {
     gSPDisplayList(POLY_OPA_DISP++, gItemDropDL);
 
     CLOSE_DISPS(play->state.gfxCtx);
+    }
 }
 
 void EnItem00_DrawHeartContainer(EnItem00* this, PlayState* play) {

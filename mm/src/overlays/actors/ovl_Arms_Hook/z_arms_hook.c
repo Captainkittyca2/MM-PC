@@ -126,6 +126,8 @@ void ArmsHook_AttachHookToActor(ArmsHook* this, Actor* actor) {
     this->grabbed = actor;
     Math_Vec3f_Diff(&actor->world.pos, &this->actor.world.pos, &this->unk1FC);
 }
+bool hook1Frame = false;
+bool hookshotMoment = false;
 
 void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
@@ -135,7 +137,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-
+    if (CVarGetInteger("gModes.ALBWMeter", 0)) {if (hook1Frame != true) {hook1Frame = true; gSaveContext.save.saveInfo.playerData.magic -= 6;} hookshotMoment = true;}
     Actor_PlaySfx_FlaggedCentered1(&player->actor, NA_SE_IT_HOOKSHOT_CHAIN - SFX_FLAG);
     ArmsHook_CheckForCancel(this);
 
@@ -281,6 +283,11 @@ void ArmsHook_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
     this->unk1EC = this->unk1E0;
+
+    if (CVarGetInteger("gModes.ALBWMeter", 0)) {
+        if (hook1Frame && !hookshotMoment) hook1Frame = false;
+        hookshotMoment = false;
+    }
 }
 
 Vec3f D_808C1C10 = { 0.0f, 0.0f, 0.0f };

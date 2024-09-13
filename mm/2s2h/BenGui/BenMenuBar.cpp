@@ -8,6 +8,8 @@
 #include <unordered_map>
 #include <string>
 #include "2s2h/Enhancements/Enhancements.h"
+#include "2s2h/Enhancements/Graphics/3DItemDrops.h"
+#include "2s2h/Enhancements/Graphics/ALBWStyleMeter.h"
 #include "2s2h/Enhancements/Graphics/MotionBlur.h"
 #include "2s2h/Enhancements/Graphics/PlayAsKafei.h"
 #include "2s2h/DeveloperTools/DeveloperTools.h"
@@ -516,6 +518,8 @@ void DrawEnhancementsMenu() {
                                                  "model and texture on the boot logo start screen" });
             UIWidgets::CVarCheckbox("Bow Reticle", "gEnhancements.Graphics.BowReticle",
                                     { .tooltip = "Gives the bow a reticle when you draw an arrow" });
+            UIWidgets::CVarCheckbox("3D Item Drops", "gEnhancements.Graphics.Item3D",
+                                    { .tooltip = "Makes item drops 3D" });
 
             ImGui::EndMenu();
         }
@@ -539,6 +543,8 @@ void DrawEnhancementsMenu() {
         if (UIWidgets::BeginMenu("Modes")) {
             UIWidgets::CVarCheckbox("Play As Kafei", "gModes.PlayAsKafei",
                                     { .tooltip = "Requires scene reload to take effect." });
+            UIWidgets::CVarCheckbox("ALBW-Style Meter", "gModes.ALBWMeter",
+                                        { .tooltip = "Makes several items utilize the meter." });
             ImGui::EndMenu();
         }
         if (UIWidgets::BeginMenu("Player Movement")) {

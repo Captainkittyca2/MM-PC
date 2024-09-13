@@ -41,6 +41,8 @@ void InitEnhancements() {
     RegisterCutscenes();
 
     // Modes
+    Register3DItemDrops();
+    RegisterALBWMeter();
     RegisterPlayAsKafei();
 
     // Player Movement
